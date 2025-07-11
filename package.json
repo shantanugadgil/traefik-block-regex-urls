@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "A traefik plugin to block access to certain paths using a list of regex values and return a defined status code.",
   "author": {
-    "name": "Jonas Schubert",
+    "name": "Shantanu Gadgil",
     "url": "https://github.com/shantanugadgil/",
     "email": "shantanu.gadgil@gmail.com"
   },

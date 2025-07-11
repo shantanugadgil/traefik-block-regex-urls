@@ -59,7 +59,7 @@ services:
 
 ## Sample configuration
 
-- `allowLocalRequests`: If set to true, will not block request from [Private IP Ranges](https://de.wikipedia.org/wiki/Private_IP-Adresse)
+- `allowLocalRequests`: If set to true, will not block request from [Private IP Ranges](https://en.wikipedia.org/wiki/Private_network)
 - `regex`:  List of regex values to use for url blocking.
 - `statusCode`: Return value of the status code.
 
@@ -76,9 +76,9 @@ my-block-regex-urls:
 
 ## Contributors
 
-| [<img alt="JonasSchubert" src="https://secure.gravatar.com/avatar/835215bfb654d58acb595c64f107d052?s=180&d=identicon" width="117"/>](https://code.schubert.zone/jonas-schubert) |
+| [<img alt="Shantanu Gadgil" src="https://avatars.githubusercontent.com/u/2508915?v=4" width="117"/>](https://github.com/shantanugadgil/) |
 | :---------------------------------------------------------------------------------------------------------------------------------------: |
-| [Jonas Schubert](https://code.schubert.zone/jonas-schubert) |
+| [Shantanu Gadgil](https://github.com/shantanugadgil/) |
 
 ## License
 
@@ -87,7 +87,7 @@ traefik-block-regex-urls is distributed under the MIT license. [See LICENSE](LIC
 ```
 MIT License
 
-Copyright (c) 2023-today Jonas Schubert
+Copyright (c) 2023-today Shantanu Gadgil
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
