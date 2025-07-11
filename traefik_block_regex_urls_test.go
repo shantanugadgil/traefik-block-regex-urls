@@ -12,7 +12,7 @@ import (
 func Test_BlockUrls_ReturnsBlock_IfMatched(t *testing.T) {
 	cfg := BlockUrls.CreateConfig()
 
-	cfg.Regex = []string{"^/wp(.*)"}
+	cfg.Regex = []string{"(.*)/wp(.*)?uid=1234"}
 	cfg.StatusCode = 404
 
 	ctx := context.Background()
@@ -25,7 +25,7 @@ func Test_BlockUrls_ReturnsBlock_IfMatched(t *testing.T) {
 
 	recorder := httptest.NewRecorder()
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "http://localhost/wp-login", nil)
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "http://localhost/wp-login?uid=1234", nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -97,7 +97,7 @@ func Test_BlockUrls_ReturnsBlock_IfMatched_AndLocalIpIsNotAllowed(t *testing.T) 
 	cfg := BlockUrls.CreateConfig()
 
 	cfg.AllowLocalRequests = false
-	cfg.Regex = []string{"^/wp(.*)"}
+	cfg.Regex = []string{"(.*)/wp(.*)"}
 	cfg.StatusCode = 404
 
 	ctx := context.Background()
