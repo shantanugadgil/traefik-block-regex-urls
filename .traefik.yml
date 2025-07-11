@@ -1,7 +1,7 @@
 # https://github.com/traefik/plugindemo
 
 # The name of your plugin as displayed in the Traefik Pilot web UI.
-displayName: traefik_block_regex_url
+displayName: Block Regex Url
 
 # For now, `middleware` is the only type available.
 type: middleware
