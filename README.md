@@ -76,9 +76,9 @@ my-block-regex-urls:
 
 ## Contributors
 
-| [<img alt="Shantanu Gadgil" src="https://avatars.githubusercontent.com/u/2508915?v=4" width="117"/>](https://github.com/shantanugadgil/) |
+| [<img alt="ShantanuGadgil" src="https://avatars.githubusercontent.com/u/2508915?v=4" width="117"/>](https://github.com/shantanugadgil) |
 | :---------------------------------------------------------------------------------------------------------------------------------------: |
-| [Shantanu Gadgil](https://github.com/shantanugadgil/) |
+| [Shantanu Gadgil](https://github.com/shantanugadgil) |
 
 ## License
 
@@ -87,7 +87,7 @@ traefik-block-regex-urls is distributed under the MIT license. [See LICENSE](LIC
 ```
 MIT License
 
-Copyright (c) 2023-today Shantanu Gadgil
+Copyright (c) 2025-today Shantanu Gadgil
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
