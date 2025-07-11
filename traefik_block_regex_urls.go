@@ -1,4 +1,4 @@
-// Package "block paths" is a Traefik plugin to block access to certain paths using a list of regex values and return a defined status code.
+// Package "block regex urls" is a Traefik plugin to block access to certain urls using a list of regex values and return a defined status code.
 package traefik_block_regex_urls
 
 import (
@@ -81,14 +81,12 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 
 // This method is the middleware called during runtime and handling middleware actions.
 func (blockUrls *traefik_block_regex_urls) ServeHTTP(responseWriter http.ResponseWriter, request *http.Request) {
-	fullURL := request.Host + request.URL.RequestURI()
-	log.Printf("fullURL: (%s)", fullURL)
-	/////////
 
-	//currentPath := request.URL.EscapedPath()
+	fullUrl := request.Host + request.URL.RequestURI()
+	log.Printf("fullURL: (%s)", fullUrl)
 
 	for _, regex := range blockUrls.regexps {
-		if regex.MatchString(fullURL) {
+		if regex.MatchString(fullUrl) {
 			ipAddresses, err := blockUrls.CollectRemoteIP(request)
 			if err != nil {
 				log.Println("Failed to collect remote ip...")

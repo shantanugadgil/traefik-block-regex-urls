@@ -1,4 +1,4 @@
-# Traefik Block Paths
+# Traefik Block Regex Urls
 
 A [Traefik](https://github.com/containous/traefik) plugin to block access to certain paths using a list of regex values and return a defined status code.
 
@@ -24,12 +24,13 @@ dynamic-configuration.yml
 ```yaml
 http:
   middlewares:
-    block-wp:
+    block-scan-paths:
       plugin:
         block-regex-urls:
           allowLocalRequests: true
           regex:
-            - "^/wp(.*)"
+            - "something.mydomain.tld/scan?uid=12345&gid=6789(.*)"
+            - "^something.mydomain.tld/scan?uid=345$"
           statusCode: 404
 ```
 
@@ -59,7 +60,7 @@ services:
 ## Sample configuration
 
 - `allowLocalRequests`: If set to true, will not block request from [Private IP Ranges](https://de.wikipedia.org/wiki/Private_IP-Adresse)
-- `regex`:  List of regex values to use for path blocking.
+- `regex`:  List of regex values to use for url blocking.
 - `statusCode`: Return value of the status code.
 
 ```yaml
@@ -68,8 +69,9 @@ my-block-regex-urls:
     block-regex-urls:
       allowLocalRequests: true
       regex:
-        - "^/wp(.*)"
-      statusCode: 404
+        - "something.mydomain.tld/scan?uid=12345&gid=6789(.*)"
+        - "^something.mydomain.tld/scan?uid=345$"
+      statusCode: 418
 ```
 
 ## Contributors
