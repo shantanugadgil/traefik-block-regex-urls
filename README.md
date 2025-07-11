@@ -29,7 +29,7 @@ http:
         block-regex-urls:
           allowLocalRequests: true
           regex:
-            - "something.mydomain.tld/scan?uid=12345&gid=6789(.*)"
+            - "^something.mydomain.tld/scan?uid=12345(.*)&gid=6789(.*)"
             - "^something.mydomain.tld/scan?uid=345$"
           statusCode: 404
 ```
@@ -69,7 +69,7 @@ my-block-regex-urls:
     block-regex-urls:
       allowLocalRequests: true
       regex:
-        - "something.mydomain.tld/scan?uid=12345&gid=6789(.*)"
+        - "^something.mydomain.tld/scan?uid=12345(.*)&gid=6789(.*)"
         - "^something.mydomain.tld/scan?uid=345$"
       statusCode: 418
 ```
