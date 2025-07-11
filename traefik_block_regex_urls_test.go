@@ -1,4 +1,4 @@
-package block_regex_url_test
+package traefik_block_regex_urls_test
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	BlockUrls "github.com/shantanugadgil/block-regex-url"
+	BlockUrls "github.com/shantanugadgil/traefik-block-regex-urls"
 )
 
 func Test_BlockUrls_ReturnsBlock_IfMatched(t *testing.T) {

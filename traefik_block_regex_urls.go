@@ -1,5 +1,5 @@
 // Package "block paths" is a Traefik plugin to block access to certain paths using a list of regex values and return a defined status code.
-package block_regex_url
+package traefik_block_regex_urls
 
 import (
 	"context"
@@ -15,7 +15,7 @@ import (
  *          Define types          *
  **********************************/
 
-type block_regex_url struct {
+type traefik_block_regex_urls struct {
 	next               http.Handler
 	name               string
 	allowLocalRequests bool
@@ -68,7 +68,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 		regexps[index] = compiledRegex
 	}
 
-	return &block_regex_url{
+	return &traefik_block_regex_urls{
 		next:               next,
 		name:               name,
 		allowLocalRequests: config.AllowLocalRequests,
@@ -80,7 +80,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 }
 
 // This method is the middleware called during runtime and handling middleware actions.
-func (blockUrls *block_regex_url) ServeHTTP(responseWriter http.ResponseWriter, request *http.Request) {
+func (blockUrls *traefik_block_regex_urls) ServeHTTP(responseWriter http.ResponseWriter, request *http.Request) {
 	fullURL := request.Host + request.URL.RequestURI()
 	log.Printf("fullURL: (%s)", fullURL)
 	/////////
@@ -130,7 +130,7 @@ func (blockUrls *block_regex_url) ServeHTTP(responseWriter http.ResponseWriter, 
 // This method collects the remote IP address.
 // It tries to parse the IP from the HTTP request.
 // Returns the parsed IP and no error on success, otherwise the so far generated list and an error.
-func (blockUrls *block_regex_url) CollectRemoteIP(request *http.Request) ([]*net.IP, error) {
+func (blockUrls *traefik_block_regex_urls) CollectRemoteIP(request *http.Request) ([]*net.IP, error) {
 	var ipList []*net.IP
 
 	// Helper method to split a string at char ','

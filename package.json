@@ -1,5 +1,5 @@
 {
-  "name": "traefik-block-regex-url",
+  "name": "traefik-block-regex-urls",
   "version": "0.0.0",
   "description": "A traefik plugin to block access to certain paths using a list of regex values and return a defined status code.",
   "author": {
@@ -11,7 +11,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/shantanugadgil/block-regex-url.git"
+    "url": "https://github.com/shantanugadgil/traefik-block-regex-urls.git"
   },
   "scripts": {
     "build:prod": "go build",

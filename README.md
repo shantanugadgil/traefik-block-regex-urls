@@ -16,7 +16,7 @@ log:
 experimental:
   localPlugins:
     block-regex-urls:
-      moduleName: github.com/shantanugadgil/block-regex-url
+      moduleName: github.com/shantanugadgil/traefik-block-regex-urls
 ```
 
 dynamic-configuration.yml
@@ -43,7 +43,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /docker/config/traefik/traefik.yml:/etc/traefik/traefik.yml
       - /docker/config/traefik/dynamic-configuration.yml:/etc/traefik/dynamic-configuration.yml
-      - /plugin/block-regex-urls:/plugins-local/src/github.com/shantanugadgil/block-regex-url/
+      - /plugin/traefik-block-regex-urls:/plugins-local/src/github.com/shantanugadgil/traefik-block-regex-urls/
     ports:
       - "80:80"
   hello:
@@ -80,7 +80,7 @@ my-block-regex-urls:
 
 ## License
 
-traefik-block-regex-url is distributed under the MIT license. [See LICENSE](LICENSE) for details.
+traefik-block-regex-urls is distributed under the MIT license. [See LICENSE](LICENSE) for details.
 
 ```
 MIT License
