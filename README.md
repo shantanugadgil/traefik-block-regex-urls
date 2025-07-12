@@ -11,8 +11,7 @@ Sample configuration in Traefik.
 traefik.yml
 
 ```yaml
-log:
-  level: INFO
+
 experimental:
   localPlugins:
     block-regex-urls:
