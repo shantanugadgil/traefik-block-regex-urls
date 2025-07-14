@@ -18,7 +18,7 @@ import (
 type traefik_block_regex_urls struct {
 	next               http.Handler
 	name               string
-	allowLocalRequests bool
+	allowLocalRequests bool // this filed is unused
 	privateIPRanges    []*net.IPNet
 	regexps            []*regexp.Regexp
 	silentStartUp      bool
@@ -26,7 +26,7 @@ type traefik_block_regex_urls struct {
 }
 
 type Config struct {
-	AllowLocalRequests bool     `yaml:"allowLocalRequests"`
+	AllowLocalRequests bool     `yaml:"allowLocalRequests"` // this filed is unused
 	Regex              []string `yaml:"regex,omitempty"`
 	SilentStartUp      bool     `yaml:"silentStartUp"`
 	StatusCode         int      `yaml:"statusCode"`
@@ -39,7 +39,7 @@ type Config struct {
 // CreateConfig creates the default plugin configuration.
 func CreateConfig() *Config {
 	return &Config{
-		AllowLocalRequests: true,
+		AllowLocalRequests: true, // this filed is unused
 		SilentStartUp:      true,
 		StatusCode:         403, // https://cs.opensource.google/go/go/+/refs/tags/go1.21.4:src/net/http/status.go
 	}
@@ -71,7 +71,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 	return &traefik_block_regex_urls{
 		next:               next,
 		name:               name,
-		allowLocalRequests: config.AllowLocalRequests,
+		allowLocalRequests: config.AllowLocalRequests, // this filed is unused
 		privateIPRanges:    InitializePrivateIPBlocks(),
 		regexps:            regexps,
 		silentStartUp:      config.SilentStartUp,
@@ -87,34 +87,9 @@ func (blockUrls *traefik_block_regex_urls) ServeHTTP(responseWriter http.Respons
 
 	for _, regex := range blockUrls.regexps {
 		if regex.MatchString(fullUrl) {
-			ipAddresses, err := blockUrls.CollectRemoteIP(request)
-			if err != nil {
-				log.Println("Failed to collect remote ip...")
-				log.Println(err)
-			}
-
-			if !blockUrls.allowLocalRequests {
-				log.Printf("%s: Request (%s %s) denied for IPs %s", blockUrls.name, request.Host, request.URL, ipAddresses)
-
-				responseWriter.WriteHeader(blockUrls.statusCode)
-				return
-			}
-
-			var isPrivateIp bool = true
-			for _, ipAddress := range ipAddresses {
-				isPrivateIp = IsPrivateIP(*ipAddress, blockUrls.privateIPRanges) && isPrivateIp
-
-				if !isPrivateIp {
-					break
-				}
-			}
-
-			if !isPrivateIp {
-				log.Printf("%s: Request (%s %s) denied for IPs %s", blockUrls.name, request.Host, request.URL, ipAddresses)
-
-				responseWriter.WriteHeader(blockUrls.statusCode)
-				return
-			}
+			log.Printf("URL is blocked: %s%s | module=%s", request.Host, request.URL,  blockUrls.name)
+			responseWriter.WriteHeader(blockUrls.statusCode)
+			return
 		}
 	}
 
