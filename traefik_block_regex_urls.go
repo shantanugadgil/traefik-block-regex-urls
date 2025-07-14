@@ -87,7 +87,7 @@ func (blockUrls *traefik_block_regex_urls) ServeHTTP(responseWriter http.Respons
 
 	for _, regex := range blockUrls.regexps {
 		if regex.MatchString(fullUrl) {
-			log.Printf("URL is blocked: %s%s | module=%s", request.Host, request.URL,  blockUrls.name)
+			log.Printf("URL is blocked: %s | module=%s", fullUrl,  blockUrls.name)
 			responseWriter.WriteHeader(blockUrls.statusCode)
 			return
 		}
