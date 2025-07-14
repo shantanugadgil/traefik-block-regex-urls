@@ -83,7 +83,6 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 func (blockUrls *traefik_block_regex_urls) ServeHTTP(responseWriter http.ResponseWriter, request *http.Request) {
 
 	fullUrl := request.Host + request.URL.RequestURI()
-	log.Printf("fullUrl: (%s)", fullUrl)
 
 	for _, regex := range blockUrls.regexps {
 		if regex.MatchString(fullUrl) {
