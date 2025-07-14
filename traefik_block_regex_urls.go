@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"regexp"
+	"slices"
 )
 
 /**********************************
@@ -17,14 +18,14 @@ type traefik_block_regex_urls struct {
 	next          http.Handler
 	name          string
 	regexps       []*regexp.Regexp
-	matchStrings  []string
+	exactMatch    []string
 	silentStartUp bool
 	statusCode    int
 }
 
 type Config struct {
 	Regex         []string `yaml:"regex,omitempty"`
-	MatchStrings  []string `yaml:"matchstrings,omitempty"`
+	ExactMatch    []string `mapstructure:"exact_match,omitempty"`
 	SilentStartUp bool     `yaml:"silentStartUp"`
 	StatusCode    int      `yaml:"statusCode"`
 }
@@ -44,7 +45,7 @@ func CreateConfig() *Config {
 // New creates a new plugin.
 // Returns the configured BlockUrls plugin object.
 func New(ctx context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
-	// if len(config.MatchStrings) == 0 {
+	// if len(config.ExactMatch) == 0 {
 	// 	return nil, fmt.Errorf("the match strings list is empty")
 	// }
 
@@ -54,13 +55,13 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 
 	if !config.SilentStartUp {
 		log.Println("Regex list: ", config.Regex)
-		log.Println("Match String list: ", config.MatchStrings)
+		log.Println("ExactMatch list: ", config.ExactMatch)
 		log.Println("StatusCode: ", config.StatusCode)
 	}
 
-	// regular expressions
-	matchStrings := make([]string, len(config.MatchStrings))
-	copy(matchStrings, config.MatchStrings)
+	// // regular expressions
+	// exactMatch := make([]string, len(config.ExactMatch))
+	// copy(exactMatch, config.ExactMatch)
 
 	// regular expressions
 	regexps := make([]*regexp.Regexp, len(config.Regex))
@@ -78,7 +79,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 		next:          next,
 		name:          name,
 		regexps:       regexps,
-		matchStrings:  matchStrings,
+		exactMatch:    config.ExactMatch,
 		silentStartUp: config.SilentStartUp,
 		statusCode:    config.StatusCode,
 	}, nil
@@ -89,12 +90,10 @@ func (blockUrls *traefik_block_regex_urls) ServeHTTP(responseWriter http.Respons
 
 	fullUrl := request.Host + request.URL.RequestURI()
 
-	for _, str := range blockUrls.matchStrings {
-		if fullUrl == str {
-			log.Printf("URL is blocked (substring match): (%s): module=%s", fullUrl, blockUrls.name)
-			responseWriter.WriteHeader(blockUrls.statusCode)
-			return
-		}
+	if slices.Contains(blockUrls.exactMatch, fullUrl) {
+		log.Printf("URL is blocked (exact match): (%s): module=%s", fullUrl, blockUrls.name)
+		responseWriter.WriteHeader(blockUrls.statusCode)
+		return
 	}
 
 	for _, regex := range blockUrls.regexps {
