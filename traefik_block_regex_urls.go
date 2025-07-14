@@ -45,23 +45,12 @@ func CreateConfig() *Config {
 // New creates a new plugin.
 // Returns the configured BlockUrls plugin object.
 func New(ctx context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
-	// if len(config.ExactMatch) == 0 {
-	// 	return nil, fmt.Errorf("the match strings list is empty")
-	// }
-
-	// if len(config.Regex) == 0 {
-	// 	return nil, fmt.Errorf("the regex list is empty")
-	// }
 
 	if !config.SilentStartUp {
 		log.Println("Regex list: ", config.Regex)
 		log.Println("ExactMatch list: ", config.ExactMatch)
 		log.Println("StatusCode: ", config.StatusCode)
 	}
-
-	// // regular expressions
-	// exactMatch := make([]string, len(config.ExactMatch))
-	// copy(exactMatch, config.ExactMatch)
 
 	// regular expressions
 	regexps := make([]*regexp.Regexp, len(config.Regex))
