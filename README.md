@@ -27,6 +27,8 @@ http:
       plugin:
         block-regex-urls:
           allowLocalRequests: true
+          strings:
+            - "blocksubstring"
           regex:
             - "^something.mydomain.tld/scan?uid=12345(.*)&gid=6789(.*)"
             - "^something.mydomain.tld/scan?uid=345$"
@@ -60,6 +62,7 @@ services:
 
 - `allowLocalRequests`: If set to true, will not block request from [Private IP Ranges](https://en.wikipedia.org/wiki/Private_network)
 - `regex`:  List of regex values to use for url blocking.
+- `strings`:  List of string values to use for url blocking.
 - `statusCode`: Return value of the status code.
 
 ```yaml
@@ -67,6 +70,8 @@ my-block-regex-urls:
   plugin:
     block-regex-urls:
       allowLocalRequests: true
+      strings:
+        - "some_string_to_block"
       regex:
         - "^something.mydomain.tld/scan?uid=12345(.*)&gid=6789(.*)"
         - "^something.mydomain.tld/scan?uid=345$"

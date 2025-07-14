@@ -25,7 +25,7 @@ type traefik_block_regex_urls struct {
 
 type Config struct {
 	Regex         []string `yaml:"regex,omitempty"`
-	MatchStrings  []string `yaml:"mystrings,omitempty"`
+	MatchStrings  []string `yaml:"strings,omitempty"`
 	SilentStartUp bool     `yaml:"silentStartUp"`
 	StatusCode    int      `yaml:"statusCode"`
 }
