@@ -96,7 +96,6 @@ func Test_BlockUrls_ReturnsOK_IfMatched_ButLocalIpIsAllowed(t *testing.T) {
 func Test_BlockUrls_ReturnsBlock_IfMatched_AndLocalIpIsNotAllowed(t *testing.T) {
 	cfg := BlockUrls.CreateConfig()
 
-	cfg.AllowLocalRequests = false
 	cfg.Regex = []string{"(.*)/wp(.*)"}
 	cfg.StatusCode = 404
 
