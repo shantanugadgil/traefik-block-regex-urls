@@ -21,6 +21,7 @@ type traefik_block_regex_urls struct {
 	allowLocalRequests bool // this field is unused
 	privateIPRanges    []*net.IPNet
 	regexps            []*regexp.Regexp
+	matchStrings       []string
 	silentStartUp      bool
 	statusCode         int
 }
@@ -28,6 +29,7 @@ type traefik_block_regex_urls struct {
 type Config struct {
 	AllowLocalRequests bool     `yaml:"allowLocalRequests"` // this field is unused
 	Regex              []string `yaml:"regex,omitempty"`
+	MatchStrings       []string `yaml:"strings,omitempty"`
 	SilentStartUp      bool     `yaml:"silentStartUp"`
 	StatusCode         int      `yaml:"statusCode"`
 }
@@ -48,15 +50,21 @@ func CreateConfig() *Config {
 // New creates a new plugin.
 // Returns the configured BlockUrls plugin object.
 func New(ctx context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
-	if len(config.Regex) == 0 {
-		return nil, fmt.Errorf("the regex list is empty")
-	}
+	// if len(config.MatchStrings) == 0 {
+	// 	return nil, fmt.Errorf("the match strings list is empty")
+	// }
+
+	// if len(config.Regex) == 0 {
+	// 	return nil, fmt.Errorf("the regex list is empty")
+	// }
 
 	if !config.SilentStartUp {
 		log.Println("Regex list: ", config.Regex)
+		log.Println("Match String list: ", config.MatchStrings)
 		log.Println("StatusCode: ", config.StatusCode)
 	}
 
+	// regular expressions
 	regexps := make([]*regexp.Regexp, len(config.Regex))
 
 	for index, regex := range config.Regex {
@@ -74,6 +82,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 		allowLocalRequests: config.AllowLocalRequests, // this field is unused
 		privateIPRanges:    InitializePrivateIPBlocks(),
 		regexps:            regexps,
+		matchStrings:       config.MatchStrings,
 		silentStartUp:      config.SilentStartUp,
 		statusCode:         config.StatusCode,
 	}, nil
@@ -84,9 +93,17 @@ func (blockUrls *traefik_block_regex_urls) ServeHTTP(responseWriter http.Respons
 
 	fullUrl := request.Host + request.URL.RequestURI()
 
+	for _, str := range blockUrls.matchStrings {
+		if strings.Contains(fullUrl, str) {
+			log.Printf("URL is blocked (substring match): (%s): module=%s", fullUrl, blockUrls.name)
+			responseWriter.WriteHeader(blockUrls.statusCode)
+			return
+		}
+	}
+
 	for _, regex := range blockUrls.regexps {
 		if regex.MatchString(fullUrl) {
-			log.Printf("URL is blocked: %s | module=%s", fullUrl,  blockUrls.name)
+			log.Printf("URL is blocked (regex match): (%s) module=%s", fullUrl, blockUrls.name)
 			responseWriter.WriteHeader(blockUrls.statusCode)
 			return
 		}
