@@ -18,7 +18,7 @@ import (
 type traefik_block_regex_urls struct {
 	next               http.Handler
 	name               string
-	allowLocalRequests bool // this filed is unused
+	allowLocalRequests bool // this field is unused
 	privateIPRanges    []*net.IPNet
 	regexps            []*regexp.Regexp
 	silentStartUp      bool
@@ -26,7 +26,7 @@ type traefik_block_regex_urls struct {
 }
 
 type Config struct {
-	AllowLocalRequests bool     `yaml:"allowLocalRequests"` // this filed is unused
+	AllowLocalRequests bool     `yaml:"allowLocalRequests"` // this field is unused
 	Regex              []string `yaml:"regex,omitempty"`
 	SilentStartUp      bool     `yaml:"silentStartUp"`
 	StatusCode         int      `yaml:"statusCode"`
@@ -39,7 +39,7 @@ type Config struct {
 // CreateConfig creates the default plugin configuration.
 func CreateConfig() *Config {
 	return &Config{
-		AllowLocalRequests: true, // this filed is unused
+		AllowLocalRequests: true, // this field is unused
 		SilentStartUp:      true,
 		StatusCode:         403, // https://cs.opensource.google/go/go/+/refs/tags/go1.21.4:src/net/http/status.go
 	}
@@ -71,7 +71,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 	return &traefik_block_regex_urls{
 		next:               next,
 		name:               name,
-		allowLocalRequests: config.AllowLocalRequests, // this filed is unused
+		allowLocalRequests: config.AllowLocalRequests, // this field is unused
 		privateIPRanges:    InitializePrivateIPBlocks(),
 		regexps:            regexps,
 		silentStartUp:      config.SilentStartUp,
