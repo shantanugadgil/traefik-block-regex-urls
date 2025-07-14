@@ -20,8 +20,8 @@ summary: 'Block access to certain paths using a list of regex values and return 
 # and Traefik Pilot will try to execute the plugin with the data you provide as part of its startup validity tests.
 testData:
   allowLocalRequests: true
-  strings:
+  exact_match:
     - "something"
   regex:
-    - "^/wp(.*)/scan?uid=12345&tid=4567"
+    - "^/wp(.*)/scan\\?uid=12345&tid=4567"
   statusCode: 418

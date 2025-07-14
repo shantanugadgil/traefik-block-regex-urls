@@ -27,11 +27,11 @@ http:
       plugin:
         block-regex-urls:
           allowLocalRequests: true
-          strings:
-            - "blocksubstring"
+          exact_match:
+            - "some_exact_string_with_regex_chars_?/._to_block"
           regex:
-            - "^something.mydomain.tld/scan?uid=12345(.*)&gid=6789(.*)"
-            - "^something.mydomain.tld/scan?uid=345$"
+            - "^something.mydomain.tld\\/scan\\?uid=12345(.*)&gid=6789(.*)"
+            - "^something.mydomain.tld\\/scan\\?uid=345$"
           statusCode: 404
 ```
 
@@ -70,11 +70,11 @@ my-block-regex-urls:
   plugin:
     block-regex-urls:
       allowLocalRequests: true
-      strings:
+      exact_match:
         - "some_string_to_block"
       regex:
-        - "^something.mydomain.tld/scan?uid=12345(.*)&gid=6789(.*)"
-        - "^something.mydomain.tld/scan?uid=345$"
+        - "^something.mydomain.tld\\/scan\\?uid=12345(.*)&gid=6789(.*)"
+        - "^something.mydomain.tld\\/scan\\?uid=345$"
       statusCode: 418
 ```
 
