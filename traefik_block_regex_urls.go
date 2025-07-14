@@ -7,7 +7,6 @@ import (
 	"log"
 	"net/http"
 	"regexp"
-	"strings"
 )
 
 /**********************************
@@ -25,7 +24,7 @@ type traefik_block_regex_urls struct {
 
 type Config struct {
 	Regex         []string `yaml:"regex,omitempty"`
-	MatchStrings  []string `yaml:"strings,omitempty"`
+	MatchStrings  []string `yaml:"matchstrings,omitempty"`
 	SilentStartUp bool     `yaml:"silentStartUp"`
 	StatusCode    int      `yaml:"statusCode"`
 }
@@ -91,7 +90,7 @@ func (blockUrls *traefik_block_regex_urls) ServeHTTP(responseWriter http.Respons
 	fullUrl := request.Host + request.URL.RequestURI()
 
 	for _, str := range blockUrls.matchStrings {
-		if strings.Contains(fullUrl, str) {
+		if fullUrl == str {
 			log.Printf("URL is blocked (substring match): (%s): module=%s", fullUrl, blockUrls.name)
 			responseWriter.WriteHeader(blockUrls.statusCode)
 			return
